@@ -26,6 +26,9 @@ def parse_request():
     geoid = Geod(ellps="WGS84")
     extra_points = geoid.npts(point1.GetX(), point1.GetY(), point2.GetX(), point2.GetY(), int(pointNum))
     list_of_lists = [list(elem) for elem in extra_points]
+    # К extra_points надо добавить первую и последнюю точки, а то их там нет
+    list_of_lists.insert(0, [point1.GetX(), point1.GetY()]);
+    list_of_lists.append([point2.GetX(), point2.GetY()]);
     print (list_of_lists)
 
     return str(list_of_lists)

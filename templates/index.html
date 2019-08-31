@@ -16,6 +16,8 @@
 
 
     <script type="text/javascript">
+
+            let polygon2 = {};
             $(document).ready(function(){
                 $('#form').submit(function(event){
                     $.get("calc",{param1:$("#pointB").val(), param2:$("#pointL").val(), param3:$("#pointNum").val()},onResponse);
@@ -23,9 +25,38 @@
                 })
                 function onResponse(data){
                     //alert(data)
-                    var polygon2 = L.polyline(JSON.parse(data)).addTo(mymap);
+                    {#Clear previous polygon#}
+                    if (polygon2 != undefined) {
+                          mymap.removeLayer(polygon2);
+                    };
+                    polygon2 = L.polyline(JSON.parse(data)).addTo(mymap);
                 }
             })
+    </script>
+
+    <script type="text/javascript">
+
+             let Marker1 = {};
+             $(function() {
+                  $("#bButton").click( function()
+                       {
+                         enableAddMarker();
+                       }
+                  );
+             });
+
+            function enableAddMarker() {
+                mymap.on('click', addMarker)
+            }
+
+            function addMarker(e) {
+                $("#pointB").val("POINT (" + e.latlng.lat + " " + e.latlng.lng + ")");
+                if(Marker1 != undefined) {
+                    mymap.removeLayer(Marker1);
+                }
+                Marker1 = L.marker(e.latlng).addTo(mymap);
+                {#mymap.off('click', addMarker);#}
+            }
     </script>
 
     <div class="container">
@@ -35,6 +66,8 @@
                   <div class="form-group">
                     <label for="pointB">Широта</label>
                     <input type="text" class="form-control" id="pointB" value="POINT (10 10)">
+                    {# Not submit button#}
+                    <button id="bButton" type="button">+</button>
                   </div>
                   <div class="form-group">
                     <label for="bointL">Долгота</label>
@@ -62,5 +95,7 @@
             </div>
         </div>
     </div>
+
+
 </body>
 </html>
