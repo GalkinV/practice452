@@ -5,8 +5,6 @@
     <title>second</title>
     <link rel="stylesheet" href="../static/bootstrap-4.3.1-dist/css/bootstrap.min.css" >
     <link rel="stylesheet" href="../static/leaflet/leaflet.css" >
-
-
 </head>
 <body>
 
@@ -38,11 +36,10 @@
 
              let Marker1 = {};
              $(function() {
-                  $("#bButton").click( function()
-                       {
+                  $("#bButton").click( function() {
+                         $("#mapid").css('cursor','crosshair');
                          enableAddMarker();
-                       }
-                  );
+                  });
              });
 
             function enableAddMarker() {
@@ -55,7 +52,8 @@
                     mymap.removeLayer(Marker1);
                 }
                 Marker1 = L.marker(e.latlng).addTo(mymap);
-                {#mymap.off('click', addMarker);#}
+                $("#mapid").css('cursor','');
+                mymap.off('click', addMarker);
             }
     </script>
 
@@ -65,9 +63,13 @@
                 <form id="form" method="POST">
                   <div class="form-group">
                     <label for="pointB">Широта</label>
-                    <input type="text" class="form-control" id="pointB" value="POINT (10 10)">
-                    {# Not submit button#}
-                    <button id="bButton" type="button">+</button>
+                      <div class="input-group">
+                         <input type="text" class="form-control" id="pointB" value="POINT (10 10)">
+                         <span class="input-group-btn">
+                            {# Not submit button#}
+                            <button id="bButton" class="btn btn-primary" type="button">+</button>
+                         </span>
+                      </div>
                   </div>
                   <div class="form-group">
                     <label for="bointL">Долгота</label>
