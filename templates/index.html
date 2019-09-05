@@ -15,6 +15,8 @@
 
     <script type="text/javascript">
 
+            import {geoJSON} from "../static/leaflet/leaflet-src.esm";
+
             let polygon2 = {};
             $(document).ready(function(){
                 $('#form').submit(function(event){
@@ -27,7 +29,10 @@
                     if (polygon2 != undefined) {
                           mymap.removeLayer(polygon2);
                     };
-                    polygon2 = L.polyline(JSON.parse(data)).addTo(mymap);
+                    {#На входе функции строка - data, которую приводим в объект JSON и cуем в leaflet как geoJSON#}
+                    {#В geoJSON сначала долгота, потом широта. И если в leaflet на вход довать geoJSON, то он#}
+                    {#провильно разбирается с тем, что сначала долгота, потом широта#}
+                    polygon2 = L.geoJSON(JSON.parse(data)).addTo(mymap);
                 }
             })
     </script>
@@ -47,7 +52,7 @@
             }
 
             function addMarker(e) {
-                $("#pointB").val("POINT (" + e.latlng.lat + " " + e.latlng.lng + ")");
+                $("#pointB").val("POINT (" + e.latlng.lng + " " + e.latlng.lat + ")");
                 if(Marker1 != undefined) {
                     mymap.removeLayer(Marker1);
                 }
@@ -64,7 +69,7 @@
                   <div class="form-group">
                     <label for="pointB">Широта</label>
                       <div class="input-group">
-                         <input type="text" class="form-control" id="pointB" value="POINT (10 12)">
+                         <input type="text" class="form-control" id="pointB" value="POINT (37 55)">
                          <span class="input-group-btn">
                             {# Not submit button#}
                             <button id="bButton" class="btn btn-primary" type="button">+</button>

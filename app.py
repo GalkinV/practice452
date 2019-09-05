@@ -24,20 +24,14 @@ def parse_request():
 
     # print ("%d,%d" % (point1.GetX(), point1.GetY()))
     geoid = Geod(ellps="WGS84")
-    extra_points = geoid.npts(point1.GetY(), point1.GetX(), point2.GetY(), point2.GetX(),  int(pointNum))
-    list_of_lists = [list(elem) for elem in extra_points]
-    # К extra_points надо добавить первую и последнюю точки, а то их там нет
-    list_of_lists.insert(0, [point1.GetY(), point1.GetX()]);
-    list_of_lists.append([point2.GetY(), point2.GetX()]);
-    print (list_of_lists)
+    extra_points = geoid.npts(point1.GetX(), point1.GetY(), point2.GetX(), point2.GetY(),  int(pointNum))
 
-    for i in list_of_lists:
-        f = i[0];
-        i[0] = i[1];
-        i[1] = f;
-        print(i)
 
-    return str(list_of_lists)
+    line = ogr.Geometry(ogr.wkbLineString)
+    for lng, lat in extra_points:
+        line.AddPoint(lng, lat)
+
+    return line.ExportToJson()
 
 if __name__ == '__main__':
     app.run()
