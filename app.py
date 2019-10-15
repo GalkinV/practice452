@@ -22,7 +22,7 @@ def parse_request():
     point1 = ogr.CreateGeometryFromWkt(wktP1)
     point2 = ogr.CreateGeometryFromWkt(wktP2)
 
-    # print ("%d,%d" % (point1.GetX(), point1.GetY()))
+    print ("%d,%d" % (point1.GetX(), point1.GetY()))
     geoid = Geod(ellps="WGS84")
     extra_points = geoid.npts(point1.GetX(), point1.GetY(), point2.GetX(), point2.GetY(),  int(pointNum))
 

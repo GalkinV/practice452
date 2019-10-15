@@ -15,11 +15,10 @@
 
     <script type="text/javascript">
 
-            import {geoJSON} from "../static/leaflet/leaflet-src.esm";
-
             let polygon2 = {};
             $(document).ready(function(){
                 $('#form').submit(function(event){
+                    console.log("+++++++++++++");
                     $.get("calc",{param1:$("#pointB").val(), param2:$("#pointL").val(), param3:$("#pointNum").val()},onResponse);
                     return false;
                 })
